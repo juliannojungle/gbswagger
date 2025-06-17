@@ -62,7 +62,7 @@ begin
         Result.AddPair(LProperty.SwagName, JSONProperty(LProperty))
   end;
 
-  // Excluir Swagger Ignore em caso de herança
+  // Excluir Swagger Ignore em caso de heranÃ§a
   for LProperty in FSchema.ClassType.GetProperties do
     if LProperty.IsSwaggerIgnore(FSchema.ClassType) then
     begin
@@ -139,9 +139,15 @@ begin
 end;
 
 function TGBSwaggerJSONV2Schema.JSONPropertyPairArray(AProperty: TRttiProperty): TJSONPair;
+var
+  LClassType: TClass;
+  LClassName: string;
 begin
+  LClassType := AProperty.GetArrayClassType;
+  LClassName := FSchema.&End.SchemaName(LClassType);
+
   Result := TJSONPair.Create('items', TJSONObject.Create
-    .AddPair('type', AProperty.ArrayType));
+    .AddPair('$ref', '#/definitions/' + LClassName));
 end;
 
 function TGBSwaggerJSONV2Schema.JSONPropertyPairEnum(AProperty: TRttiProperty): TJSONPair;
