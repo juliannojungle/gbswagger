@@ -57,8 +57,8 @@ type
     function IsTime: Boolean;
     function IsBoolean: Boolean;
 
-    // Vários ORMs trabalham com tipo Nullable
-    // Colaboração do Giorgio para essa compatibilidade
+    // VÃ¡rios ORMs trabalham com tipo Nullable
+    // ColaboraÃ§Ã£o do Giorgio para essa compatibilidade
     function IsNullable: Boolean;
     function NullableType: string;
 
@@ -83,6 +83,7 @@ type
     function SwagMaxLength: Integer;
 
     function GetClassType: TClass;
+    function GetArrayClassType: TClass;
     function GetListType(AObject: TObject): TRttiType;
     function GetEnumNames: TArray<string>;
   end;
@@ -201,6 +202,13 @@ begin
 end;
 
 { TGBSwaggerRTTIPropertyHelper }
+
+function TGBSwaggerRTTIPropertyHelper.GetArrayClassType: TClass;
+begin
+  Result := nil;
+  if (IsArray) then
+    Result := TRttiInstanceType(TRttiDynamicArrayType(Self.PropertyType).ElementType).MetaclassType;
+end;
 
 function TGBSwaggerRTTIPropertyHelper.ArrayType: string;
 begin
